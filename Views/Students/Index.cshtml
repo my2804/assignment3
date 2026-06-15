@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Student>
+@{
+    ViewData["Title"] = "Students";
+}
+
+<h1>Students</h1>
+
+<form method="get" class="d-flex gap-2 mb-3 align-items-center flex-wrap">
+    <input type="text" name="name" value="@ViewBag.NameFilter"
+           class="form-control w-auto" placeholder="Search name..." />
+
+    <select name="majorId" class="form-select w-auto" asp-items="ViewBag.Majors">
+        <option value="">All majors</option>
+    </select>
+
+    <select name="mentorId" class="form-select w-auto" asp-items="ViewBag.Mentors">
+    <option value="">All mentors</option>
+</select>
+
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a href="/Students" class="btn btn-secondary">Clear</a>
+</form>
+
+<a asp-action="Create" class="btn btn-success mb-3">Create New Student</a>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th><th>Name</th><th>Major</th><th>Mentor</th>
+            <th>Phone</th><th>Address</th><th>Courses</th><th>Mentees</th><th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.StudentId</td>
+                <td>@s.Name</td>
+                <td>@(s.Major?.Name ?? "—")</td>
+                <td>@(s.Mentor?.Name ?? "—")</td>
+                <td>@(s.StudentDetails?.PhoneNumber ?? "")</td>
+                <td>@(s.StudentDetails?.Address ?? "")</td>
+                <td>@s.Courses.Count</td>
+                <td>@s.Mentees.Count</td>
+                <td class="d-flex gap-1">
+                    <a asp-action="Details" asp-route-id="@s.StudentId" class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Edit"    asp-route-id="@s.StudentId" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete"  asp-route-id="@s.StudentId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

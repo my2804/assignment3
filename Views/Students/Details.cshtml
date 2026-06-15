@@ -1,0 +1,55 @@
+﻿@model Student
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h2>Student Details</h2>
+
+<div class="mb-3">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.StudentId" class="btn btn-warning">Edit</a>
+    <a asp-action="Delete" asp-route-id="@Model.StudentId" class="btn btn-danger">Delete</a>
+</div>
+
+<div class="card p-4">
+    <h4>@Model.Name</h4>
+    <table class="table table-borderless w-auto">
+        <tr><th>Student ID</th><td>@Model.StudentId</td></tr>
+        <tr><th>Major</th><td>@(Model.Major?.Name ?? "—")</td></tr>
+        <tr><th>Mentor</th><td>@(Model.Mentor?.Name ?? "—")</td></tr>
+        <tr><th>Phone</th><td>@(Model.StudentDetails?.PhoneNumber ?? "—")</td></tr>
+        <tr><th>Address</th><td>@(Model.StudentDetails?.Address ?? "—")</td></tr>
+        <tr>
+            <th>Courses (count)</th>
+            <td>@Model.Courses.Count</td>
+        </tr>
+        <tr>
+            <th>Courses</th>
+            <td>
+                <ul>
+                    @foreach (var c in Model.Courses)
+                    {
+                        <li>@c.Title</li>
+                    }
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Mentees (count)</th>
+            <td>@Model.Mentees.Count</td>
+        </tr>
+        <tr>
+            <th>Mentees</th>
+            <td>
+                <ul>
+                    @foreach (var m in Model.Mentees)
+                    {
+                        <li>
+                            <a asp-action="Details" asp-route-id="@m.StudentId">@m.Name</a>
+                        </li>
+                    }
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
